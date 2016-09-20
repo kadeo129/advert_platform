@@ -1,0 +1,21 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/add.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Editer une image - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>Editer une image</h2>
+
+    {{ render(controller("OCPlatformBundle:Advert:editImage", {'limit': 3})) }}
+
+    <p>
+        <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour aux annonces
+        </a>
+    </p>
+{% endblock %}

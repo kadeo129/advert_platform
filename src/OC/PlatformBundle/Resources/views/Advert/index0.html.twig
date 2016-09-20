@@ -1,0 +1,42 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/index.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-info">
+            <strong>Message flash</strong> : {{ message }}
+        </div>
+    {% endfor %}
+
+    <h2>Liste des annonces</h2>
+
+    {% include 'OCPlatformBundle:Advert:pagination.html.twig' %}
+
+    <ul>
+        {% for advert in listAdverts %}
+            <li>
+                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
+                    <h4> {{ advert.title }}</h4>
+                </a>
+                par {{ advert.author }},
+                le {{ advert.date|date('d/m/Y') }}
+                <p class="bg-info">{{ advert.content }}</p>
+            </li>
+        {% else %}
+            <li>La page demandée n'existe pas.</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}

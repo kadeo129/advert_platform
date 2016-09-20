@@ -1,0 +1,55 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/index.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-info">
+            <strong>Message flash</strong> : {{ message }}
+        </div>
+    {% endfor %}
+
+    <h2>Liste des annonces</h2>
+
+    <ul class="pagination">
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, pagination.pages_count) %}
+            <li{% if p == pagination.page %} class="active"{% endif %}>
+                <a href="{{ path(pagination.route, {'page': p}) }}">{{ p }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <ul>
+        {% for advert in listAdverts %}
+            <div class="row" style="margin-bottom:2em;">
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ advert.image.url }}"  alt="{{ advert.image.alt }}" class="img-responsive" />
+                </div>
+                <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12 ">
+                    <li>
+                        <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
+                            <h4> {{ advert.title }}</h4>
+                        </a>
+                        par {{ advert.author }},
+                        le {{ advert.date|date('d/m/Y') }}
+                        <p class="bg-info">{{ advert.content }}</p>
+                    </li>
+                </div>
+            </div>
+        {% else %}
+            <li>La page demandée n'existe pas.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}OC Platforme{% endblock %}</title>
+
+    {% block stylesheets %}
+        {# On charge le CSS de bootstrap depuis le site directement #}
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="header" class="jumbotron">
+            <h1>Ma plateforme d'annonce</h1>
+            <p>
+                Ce produit est propulsé par Symfony, et construit grâce au MOOC OpenClassrooms et SensioLabs.
+            </p>
+            <p>
+               <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
+                   Participer au MOOC »
+               </a>
+            </p>
+        </div>
+
+        <div class="row">
+            <div id="menu" class="col-md-3">
+                <h3>Les annonces</h3>
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ path('oc_platform_home') }}">Accueil</a></li>
+                    <li><a href="{{ path('oc_platform_add') }}">Ajouter une annonce</a></li>
+                </ul>
+
+                <h4>Dernières annonces</h4>
+                {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
+            </div>
+            <div id="content" class="col-md-9">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>The sky's the limit © {{ 'now'|date('Y') }} and beyond.</p>
+        </footer>
+
+    </div>
+
+
+    {% block javascripts %}
+            {# Ajouter ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter#}
+                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <!-- Latest compiled and minified JavaScript -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {% endblock %}
+
+</body>
+</html>

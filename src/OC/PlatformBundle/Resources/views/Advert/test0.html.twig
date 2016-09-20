@@ -1,0 +1,60 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}OC Platforme{% endblock %}</title>
+
+    {% block stylesheets %}
+        {# On charge le CSS de bootstrap depuis le site directement #}
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    {% endblock %}
+</head>
+
+<body>
+<div class="container">
+
+    <div id="header" class="jumbotron">
+        <h1>Ma Page de test</h1>
+        <p>
+            Cours sur Symfony.
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
+                Partie sur Doctrine2 »
+            </a>
+        </p>
+    </div>
+
+    <div class="row">
+        <div id="menu" class="col-md-3">
+            <h4>Annonce n° {{ advert.id }}</h4>
+            <p>Pour cette annonce, il y a {{ advert.nbApplications }} nouvelles candidatures. </p>
+        </div>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>Sky is the limit ! © {{ 'now'|date('Y') }} ...and beyond.</p>
+    </footer>
+
+</div>
+
+
+{% block javascripts %}
+    {# Ajouter ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter#}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+{% endblock %}
+
+</body>
+</html>

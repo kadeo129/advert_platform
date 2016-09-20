@@ -1,0 +1,23 @@
+{# Boutons de pagination#}
+<div class="pagination">
+    <div class="pagination-buttons">
+        {# Si la page où l'on se trouve est supérieure à 1, on peut soit revenir à la première page (<<), soit revenir seulement à la page précédente (<) #}
+        {% if pagination.page>1 %}
+            {# Reconstruction de l'URL à partir des données du tableau pagination #}
+            <a href="{{ path(pagination.route, pagination.route_params|merge({'page':1})) }}"><<</a>
+            <a href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.page-1})) }}"><</a>
+        {% endif %}
+
+        {# Les pages qu'on voit apparaît autour de la nôtre : affiche les nombres p seulement de p-4 à p+4 mais ne va pas = <1 ou >pages_count#}
+        {% for p in range(max(pagination.page-4,1),min(pagination.page+4, pagination.pages_count)) %}
+            <a  {% if p == pagination.page %} {% endif %} href="{{ path(pagination.route, pagination.route_params|merge({'page':p})) }}">{{ p }}</a>
+        {% endfor %}
+
+        {# Si la page où l'on se trouve est inférieurs à pages_count, on peut soit aller à la page suivante (>), soit aller à la dernière page (>>) #}
+        {% if pagination.page<pagination.pages_count %}
+            <a href="{{ path(pagination.route, pagination.route_params|merge({'page':pagination.page+1})) }}">></a>
+            <a href="{{ path(pagination.route, pagination.route_params|merge({'page': pagination.pages_count})) }}">>></a>
+        {% endif %}
+    </div>
+
+</div>
