@@ -19,6 +19,7 @@ class AdvertController extends Controller
     // affiche toutes les annonces paginées
     public function indexAction($page)
     {
+
         // définit le nombre maximal d'annonce par page
         $maxAdverts = $this->getParameter('max_per_page');
 
@@ -200,22 +201,14 @@ class AdvertController extends Controller
     }
 
 
-    public function testAction($id)
+    public function testAction()
     {
-        $listAdverts = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('OCPlatformBundle:Advert')
-            ->getAdvertWithAssets($id)
+        $repository = $this->getDoctrine()->getManager()->getRepository('OCPlatformBundle:Advert');
+        $listAdverts = $repository->findByNbApplications(0);
         ;
 
-        foreach($listAdverts as $advert)
-        {
-            $advert->getApplications();
-            var_dump($advert);
-        }
 
-        return $this->render('OCPlatformBundle:Advert:test.html.twig', array('advert'=>$listAdverts));
+        return $this->render('OCPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
 
     }
 

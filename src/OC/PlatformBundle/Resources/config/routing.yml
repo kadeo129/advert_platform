@@ -55,7 +55,7 @@ oc_platform_editimage:
         _controller: OCPlatformBundle:Advert:editImage
 
 oc_platform_test:
-    path:    /test/{id}
+    path:    /test
     defaults:
         _controller: OCPlatformBundle:Advert:test
 

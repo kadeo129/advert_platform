@@ -1,7 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Belles Bulles
- * Date: 26/09/2016
- * Time: 12:20
- */
+
+namespace OC\PlatformBundle\Purge;
+
+use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Repository\AdvertRepository;
+
+class OCPurge
+{
+
+
+    public function purge($days)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('OCPlatformBundle:Advert');
+        $listAdverts = $repository->findByNbApplications(0);
+
+        ;
+    }
+}

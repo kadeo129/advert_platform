@@ -488,4 +488,5 @@ class Advert
     {
         return $this->skills;
     }
+
 }

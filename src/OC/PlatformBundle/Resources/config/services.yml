@@ -1,3 +1,6 @@
+parameters:
+    oc_platform.purger.advert.days: 10
+
 services:
     oc_platform.antispam:
         class: OC\PlatformBundle\Antispam\OCAntispam
@@ -17,3 +20,7 @@ services:
             - "@oc_platform.email.application_mailer"
         tags:
             - {name: doctrine.event_listener, event: postPersist}
+
+    oc_platform.purger.advert:
+        class: OC\PlatformBundle\Purge\OCPurge
+        arguments:    ['%oc_platform.purger.advert.days%']

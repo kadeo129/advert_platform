@@ -1,1 +1,8 @@
-toto
+<body>
+<ul>
+    {% for advert in listAdverts %}
+        <li>{{ advert.title }}  : {{ advert.nbApplications }}</li>
+    {% endfor %}
+</ul>
+
+</body>
