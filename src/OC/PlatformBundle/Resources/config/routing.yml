@@ -55,7 +55,7 @@ oc_platform_editimage:
         _controller: OCPlatformBundle:Advert:editImage
 
 oc_platform_test:
-    path:    /test
+    path:    /test/{id}
     defaults:
         _controller: OCPlatformBundle:Advert:test
 
@@ -68,3 +68,10 @@ oc_platform_removeApplication:
     path:    /removeApplication/{id}
     defaults:
         _controller: OCPlatformBundle:Advert:removeApplication
+
+oc_platform_purge:
+    path:    /purge/{days}
+    defaults:
+        _controller: OCPlatformBundle:Advert:purge
+    requirements:
+        id:    \d+

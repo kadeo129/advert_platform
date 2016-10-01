@@ -153,4 +153,28 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository
 
         return new Paginator($query, true);
     }
+
+
+    public function calculAge(\Datetime $registration_date)
+    {
+        $today= new \Datetime();
+        $interval = $today->diff($registration_date);
+        return $interval;
+    }
+
+    public function purge($days)
+    {
+        $listAdverts = $this->findByNbApplications(0);
+
+        foreach($listAdverts as $advert)
+        {
+            $age = calculAge($advert->getDate());
+            if($age->format('d') > $days)
+            {
+                $this->remove($advert);
+                $this->flush;
+            }
+        }
+        ;
+    }
 }

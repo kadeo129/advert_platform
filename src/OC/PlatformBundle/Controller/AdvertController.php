@@ -2,6 +2,7 @@
 
 namespace OC\PlatformBundle\Controller;
 
+use OC\PlatformBundle\Purge\OCPurge;
 use OC\PlatformBundle\Entity\AdvertSkill;
 use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Entity\Image;
@@ -13,13 +14,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Repository\AdvertRepository;
 
 
-
 class AdvertController extends Controller
 {
     // affiche toutes les annonces paginées
     public function indexAction($page)
     {
-
         // définit le nombre maximal d'annonce par page
         $maxAdverts = $this->getParameter('max_per_page');
 
@@ -201,15 +200,25 @@ class AdvertController extends Controller
     }
 
 
-    public function testAction()
+    public function testAction($id)
     {
-        $repository = $this->getDoctrine()->getManager()->getRepository('OCPlatformBundle:Advert');
-        $listAdverts = $repository->findByNbApplications(0);
-        ;
+        $em = $this->getDoctrine()->getManager();
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->findOneById($id);
+        $test = new OCPurge($em);
+        $age = $test->calculAge($advert);
+        return $this->render('OCPlatformBundle:Advert:test.html.twig', array('id'=>$id, 'age'=>$age));
 
+    }
 
-        return $this->render('OCPlatformBundle:Advert:test.html.twig', array('listAdverts'=>$listAdverts));
-
+    public function purgeAction($days, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $purge = new OCPurge($em);
+        $purge->purge($days);
+        $session = $request->getSession();
+        $session->getFlashBag('notice', 'Les annonces sans candidature de plus de '.$days.' jours ont été supprimées.');
+        return $this->redirectToRoute('oc_platform_home');
+        //return $this->redirectToRoute('oc_platform_home');
     }
 
 }

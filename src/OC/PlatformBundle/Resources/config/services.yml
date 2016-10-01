@@ -1,6 +1,3 @@
-parameters:
-    oc_platform.purger.advert.days: 10
-
 services:
     oc_platform.antispam:
         class: OC\PlatformBundle\Antispam\OCAntispam
@@ -23,4 +20,5 @@ services:
 
     oc_platform.purger.advert:
         class: OC\PlatformBundle\Purge\OCPurge
-        arguments:    ['%oc_platform.purger.advert.days%']
+        argument:
+            - "@doctrine.orm.entity_manager"

@@ -65,14 +65,14 @@ class Advert
     private $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="oc_advert_category")
      * @ORM\joinColumn(onDelete="SET NULL")
      */
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert", orphanRemoval=true)
      */
     private $applications; // Notes le "s", une annonce est liée à plusieurs candidatures
 
@@ -101,7 +101,7 @@ class Advert
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\AdvertSkill", mappedBy="advert")
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\AdvertSkill", mappedBy="advert", orphanRemoval=true)
      */
     private $skills;
 
