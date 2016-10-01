@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Repository\AdvertRepository;
+use OC\PlatformBundle\Form\AdvertType;
 
 
 class AdvertController extends Controller
@@ -105,25 +106,25 @@ class AdvertController extends Controller
     // ajoute une annonce, une image, deux candidature, ses catégories ainsi que les compétences requises:: À compléter avec un formulaire
     public function addAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $advert = new Advert();
-        $advert->setTitle('Développeur Symfony');
-        $advert->setAuthor('Nicola');
-        $advert->setEmail('n.defont@gmail.com');
-        $advert->setContent("Je recherche un étudiant en DUT pour un projet Symfony.");
 
-        $em->persist($advert);
-        $em->flush();
-
-        if($request->isMethod('POST'))
+        $form = $this->createForm(AdvertType::class,$advert);
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($advert);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+
+                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
         }
-
-        return $this->render('OCPlatformBundle:Advert:add.html.twig');
-
+        // À ce stade, le formulaire n'est pas valide car :
+        // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+        // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+        return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     // permet d'éditer une annonce :: À compléter avec un formulaire!
