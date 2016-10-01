@@ -215,8 +215,7 @@ class AdvertController extends Controller
         $em = $this->getDoctrine()->getManager();
         $purge = new OCPurge($em);
         $purge->purge($days);
-        $session = $request->getSession();
-        $session->getFlashBag('notice', 'Les annonces sans candidature de plus de '.$days.' jours ont été supprimées.');
+        $this->get('session')->getFlashBag()->set('notice', 'Les annonces sans candidature de plus de '.$days.' jours ont été supprimées.');
         return $this->redirectToRoute('oc_platform_home');
         //return $this->redirectToRoute('oc_platform_home');
     }
