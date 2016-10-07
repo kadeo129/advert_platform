@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Repository\AdvertRepository;
 use OC\PlatformBundle\Form\AdvertType;
+use OC\PlatformBundle\Form\AdvertEditType;
 
 
 class AdvertController extends Controller
@@ -138,23 +139,20 @@ class AdvertController extends Controller
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
 
-        $advert->setAuthor('Paule');
-        if($advert->getImage() === null)
-        {
-            $image = new Image;
-            $image->setUrl('http://www.w3schools.com/css/trolltunga.jpg');
-            $advert->setImage($image);
-        }
-        $advert->getImage()->setUrl('https://static.pexels.com/photos/63572/pexels-photo-63572.jpeg');
-        $advert->getImage()->setAlt('Work with new technologies');
-        $em->flush();
+        $form = $this->createForm(AdvertEditType::class,$advert);
 
-        if($request->isMethod('POST'))
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
+
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+
             return $this->redirectToRoute('oc_platform_view', array('id' => $id));
         }
-        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('advert' => $advert));
+
+        return $this->render('OCPlatformBundle:Advert:edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
     }
 
     // supprime toutes les catégories d'une annonce

@@ -10,7 +10,10 @@
 
     <h2>Modifier une annonce</h2>
 
-    {{ include("OCPlatformBundle:Advert:form.html.twig") }}
+    {% if form is defined %}
+        {{ include("OCPlatformBundle:Advert:form.html.twig") }}
+    {% endif %}
+
 
     <p>
         Vous éditez une annonce déjà existante, merci de ne pas changer l'esprit général de l'annonce déjà publiée.

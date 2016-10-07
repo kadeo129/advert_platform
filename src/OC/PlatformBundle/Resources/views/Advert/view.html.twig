@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-6 col-xs-6">
             {% if advert.image is not null %}
                 <p>
-                    <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}" class="img-responsive">
+                    <img src="{{ asset(advert.image.webPath)}}" alt="{{ advert.image.alt }}" class="img-responsive">
                 </p>
             {% endif %}
         </div>

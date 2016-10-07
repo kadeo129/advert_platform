@@ -489,4 +489,28 @@ class Advert
         return $this->skills;
     }
 
+
+    /**
+     * Add skill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skill
+     *
+     * @return Advert
+     */
+    public function addSkill(\OC\PlatformBundle\Entity\AdvertSkill $skill)
+    {
+        $this->skills[] = $skill;
+
+        return $this;
+    }
+
+    /**
+     * Remove skill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skill
+     */
+    public function removeSkill(\OC\PlatformBundle\Entity\AdvertSkill $skill)
+    {
+        $this->skills->removeElement($skill);
+    }
 }

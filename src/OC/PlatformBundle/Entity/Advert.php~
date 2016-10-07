@@ -65,14 +65,14 @@ class Advert
     private $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OC\PlatformBundle\Entity\Category", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="oc_advert_category")
      * @ORM\joinColumn(onDelete="SET NULL")
      */
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert", orphanRemoval=true)
      */
     private $applications; // Notes le "s", une annonce est liée à plusieurs candidatures
 
@@ -101,9 +101,11 @@ class Advert
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\AdvertSkill", mappedBy="advert")
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\AdvertSkill", mappedBy="advert", orphanRemoval=true)
      */
-    private $skill;
+    private $skills;
+
+    private $test;
 
     /**
      * Get nbApplications
@@ -453,5 +455,64 @@ class Advert
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add skills
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skills
+     *
+     * @return Advert
+     */
+    public function addSkills(\OC\PlatformBundle\Entity\AdvertSkill $skills)
+    {
+        $this->skills[] = $skills;
+
+        return $this;
+    }
+
+    /**
+     * Remove skills
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skills
+     */
+    public function removeSkills(\OC\PlatformBundle\Entity\AdvertSkill $skills)
+    {
+        $this->skills->removeElement($skills);
+    }
+
+    /**
+     * Get skills
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+
+
+    /**
+     * Add skill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skill
+     *
+     * @return Advert
+     */
+    public function addSkill(\OC\PlatformBundle\Entity\AdvertSkill $skill)
+    {
+        $this->skills[] = $skill;
+
+        return $this;
+    }
+
+    /**
+     * Remove skill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $skill
+     */
+    public function removeSkill(\OC\PlatformBundle\Entity\AdvertSkill $skill)
+    {
+        $this->skills->removeElement($skill);
     }
 }
