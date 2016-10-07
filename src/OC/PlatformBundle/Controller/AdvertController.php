@@ -156,10 +156,9 @@ class AdvertController extends Controller
     }
 
     // supprime toutes les catégories d'une annonce
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
         if (null === $advert)
@@ -167,13 +166,19 @@ class AdvertController extends Controller
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
 
-        foreach ($advert->getCategories() as $category)
-        {
-            $advert->removeCategory($category);
-        }
+        $form = $this->get('form.factory')->create();
 
-        $em->flush();
-        return $this->redirectToRoute('oc_platform_home');
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($advert);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice','Annonce bien supprimée');
+
+            return $this->redirectToRoute('oc_platform_home');
+        }
+        return $this->render('OCPlatformBundle:Advert:delete.html.twig',array('advert' => $advert, 'form' => $form->createView()));
     }
 
     // affiche les $limit dernières annonces
@@ -218,5 +223,4 @@ class AdvertController extends Controller
         return $this->redirectToRoute('oc_platform_home');
         //return $this->redirectToRoute('oc_platform_home');
     }
-
 }
