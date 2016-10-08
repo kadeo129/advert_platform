@@ -204,14 +204,32 @@ class AdvertController extends Controller
     }
 
 
-    public function testAction($id)
+    public function testAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $advert = $em->getRepository('OCPlatformBundle:Advert')->findOneById($id);
-        $test = new OCPurge($em);
-        $age = $test->calculAge($advert);
-        return $this->render('OCPlatformBundle:Advert:test.html.twig', array('id'=>$id, 'age'=>$age));
+        $advert = new Advert;
 
+        $advert->setDate(new \DateTime()); // Champ "date" OK
+        $advert->setTitle('abc');           // Champ "title" incorrect : moins de 10 caractères
+        $advert->setContent('démotivation et abandon sont les maîtres mots de cette offre...');
+        $advert->setAuthor('A');
+        $advert->isContentValid();
+
+        // On récupère le service validator
+        $validator = $this->get('validator');
+
+        // On déclenche la validation sur notre object
+        $listErrors = $validator->validate($advert);
+
+        // Si $listErrors n'est pas vide, on affiche les erreurs
+        if(count($listErrors) > 0)
+        {
+            // $listErrors est un objet, sa méthode __toString permet de lister joliment les erreurs
+            return new Response((string) $listErrors);
+        }
+        else
+        {
+            return new Response('L\'annonce est valide !');
+        }
     }
 
     public function purgeAction($days, Request $request)
