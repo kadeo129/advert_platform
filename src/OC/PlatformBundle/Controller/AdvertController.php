@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use OC\PlatformBundle\Repository\AdvertRepository;
 use OC\PlatformBundle\Form\AdvertType;
 use OC\PlatformBundle\Form\AdvertEditType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class AdvertController extends Controller
@@ -22,7 +23,7 @@ class AdvertController extends Controller
     public function indexAction($page)
     {
         // définit le nombre maximal d'annonce par page
-        $maxAdverts = $this->getParameter('max_per_page');
+        $maxAdverts = 5;
 
         // compte le nombre total d'annonces
         $adverts_count = $this
@@ -105,6 +106,11 @@ class AdvertController extends Controller
     }
 
     // ajoute une annonce, une image, deux candidature, ses catégories ainsi que les compétences requises:: À compléter avec un formulaire
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function addAction(Request $request)
     {
         $advert = new Advert();

@@ -6,8 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
-    max_per_page: %max_adverts_per_page%
+    locale: fr
 
 framework:
     #esi:             ~
@@ -32,6 +31,7 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    translator:        { fallbacks: ["%locale%"]}
 
 # Twig Configuration
 twig:
@@ -77,4 +77,9 @@ stof_doctrine_extensions:
     orm:
         default:
             sluggable: true
+
+fos_user:
+    db_driver:    orm
+    firewall_name:     main
+    user_class:    OC\UserBundle\Entity\User
 
